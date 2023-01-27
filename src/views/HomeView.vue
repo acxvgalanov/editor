@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import TheEditor from '@/components/editor/TheEditor.vue';
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
+  <main class="main-container">
+    <TheEditor />
   </main>
 </template>
+
+<style lang="scss">
+.main-container {
+  overflow: hidden;
+}
+</style>
