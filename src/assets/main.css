@@ -5,3 +5,7 @@
   margin: 0 auto;
   font-weight: normal;
 }
+
+editor-canvas {
+  overflow-x: auto;
+}

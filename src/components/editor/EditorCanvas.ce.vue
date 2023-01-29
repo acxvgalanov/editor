@@ -1,52 +1,39 @@
-<script lang="ts">
-import shortid from 'short-uuid';
-import { h, type VNode } from 'vue';
-import { COElementType, resolveCOElement } from '../../builder/utils';
-export default {
-  data(): { comps: VNode[] } {
-    return {
-      comps: [],
-    };
-  },
-  methods: {
-    dragOver(e: DragEvent) {
-      e.preventDefault();
-    },
-    async drop(e: DragEvent) {
-      const type = e.dataTransfer?.getData('type') as COElementType;
-      this.comps.push(await resolveCOElement(type));
-    },
-  },
-  render() {
-    return h(
-      'div',
-      {
-        class: 'editor-canvas',
-      },
-      [
-        h(
-          'div',
-          {
-            class: 'editor-canvas__sheet',
-            onDragover: this.dragOver,
-            onDrop: this.drop,
-          },
-          [this.comps]
-        ),
-      ]
-    );
-  },
-};
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useContainer } from './common/dragNDrop';
+
+const { comps, events, childDrop } = useContainer();
+const canvas = ref<HTMLDivElement | null>(null);
 </script>
+
+<template>
+  <div class="editor-canvas" ref="canvas">
+    <div class="editor-canvas__sheet" v-bind="events">
+      <template v-for="(comp, i) in comps" :key="`component${i}`">
+        <component @inlineDrop="childDrop" :is="comp" />
+      </template>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .co-element {
   outline: 1px dashed var(--dark-grey);
   outline-offset: -1px;
 
-  &:hover {
-    outline: 2px solid blue;
-    outline-offset: -2px;
+  &--dragover {
+    outline: none;
+    box-shadow: inset 0px 0px 0px 2px red;
+
+    &.co-element--inline {
+      outline: 1px dashed var(--dark-grey);
+      box-shadow: inset 4px 0px 0px -2px red;
+    }
+  }
+
+  &:not(:has(&:hover)):hover {
+    outline: none;
+    box-shadow: inset 0px 0px 0px 2px blue;
   }
 
   &--selected {

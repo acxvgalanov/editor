@@ -9,6 +9,7 @@ import { ref, onMounted, defineCustomElement } from 'vue';
 import EditorTools from '@/components/editor/EditorTools.vue';
 import { toolText } from '@/builder/tools/toolText';
 import { toolBlock } from '@/builder/tools/toolBlock';
+import { useEditor } from '@/stores/editor';
 import EditorCanvasCe from './EditorCanvas.ce.vue';
 const tools = [toolText(), toolBlock()];
 const editor = ref<HTMLDivElement | null>();
@@ -19,7 +20,11 @@ onMounted(() => {
   }
   const CanvasElement = defineCustomElement(EditorCanvasCe);
   customElements.define('editor-canvas', CanvasElement);
-  editor.value.prepend(new CanvasElement());
+  const el = new CanvasElement();
+  el.classList.add('qq');
+  const { setEditorElement } = useEditor();
+  setEditorElement(el);
+  editor.value.prepend(el);
 });
 </script>
 

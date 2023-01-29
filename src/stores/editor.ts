@@ -1,12 +1,13 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { COElement } from '../builder/types';
 
 export const useEditor = defineStore('editor', () => {
-  const elements = ref<COElement[]>([]);
-  const addElement = (el: COElement, parentId?: string) => {};
+  const editorElement = ref<HTMLElement | null>(null);
+  const setEditorElement = (el: HTMLElement) => {
+    editorElement.value = el;
+  };
   return {
-    elements,
-    addElement,
+    editorElement,
+    setEditorElement,
   };
 });
