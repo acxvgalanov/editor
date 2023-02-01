@@ -1,13 +1,31 @@
-import { ref } from 'vue';
+import { ref, shallowRef, triggerRef } from 'vue';
 import { defineStore } from 'pinia';
+import type { BuilderWrapper } from '../builder/elements/BuilderWrapper';
+import type { BuilderElementSerialized } from '../builder/elements/BuilderElement';
 
-export const useEditor = defineStore('editor', () => {
-  const editorElement = ref<HTMLElement | null>(null);
-  const setEditorElement = (el: HTMLElement) => {
-    editorElement.value = el;
+export const useEditorStore = defineStore('editorStore', () => {
+  const currentSection = shallowRef<BuilderWrapper | null>(null);
+  const sections = shallowRef<BuilderWrapper[]>([]);
+  const addSection = (val: BuilderWrapper) => {
+    sections.value.push(val);
+    triggerRef(sections);
   };
+  const resetSections = (val: BuilderWrapper[]) => {
+    sections.value = val;
+  };
+
   return {
-    editorElement,
-    setEditorElement,
+    sections,
+    currentSection,
+    addSection,
+    resetSections,
   };
+});
+
+export const useDragStore = defineStore('dragStore', () => {
+  const draggedEl = shallowRef<BuilderElementSerialized | null>(null);
+  const setDraggedEl = (val: BuilderElementSerialized | null) => {
+    draggedEl.value = val;
+  };
+  return { draggedEl, setDraggedEl };
 });

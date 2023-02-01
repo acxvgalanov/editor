@@ -1,24 +1,12 @@
-export type ElementType = 'text' | 'block';
+import type { BuilderElementSerialized } from './elements/BuilderElement';
+
+export enum COElementType {
+  TEXT = 'text',
+  BLOCK = 'block',
+  WRAPPER = 'wrapper',
+}
 
 export type BuilderTool = {
-  elementType: ElementType;
+  getElement: () => BuilderElementSerialized;
   title: string;
-};
-
-export type ElementOptions = {
-  selectable: boolean;
-};
-
-export type ElementMetadata = {
-  id: string;
-  type: ElementType;
-};
-
-export type COElement = {
-  id: string;
-  type: ElementType;
-  title: string;
-  tagName: keyof HTMLElementTagNameMap;
-  content: COElement[] | string;
-  style: Partial<CSSStyleDeclaration>;
 };

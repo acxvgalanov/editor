@@ -1,18 +1,23 @@
 <script setup lang="ts">
+import shortUUID from 'short-uuid';
 import { ref } from 'vue';
-import { useContainer } from './common/dragNDrop';
+import { BuilderWrapper } from '../../builder/elements/BuilderWrapper';
+import { useEditorStore } from '../../stores/editor';
 
-const { comps, events, childDrop } = useContainer();
 const canvas = ref<HTMLDivElement | null>(null);
+const editorStore = useEditorStore();
+editorStore.resetSections([new BuilderWrapper(shortUUID.generate())]);
 </script>
 
 <template>
   <div class="editor-canvas" ref="canvas">
-    <div class="editor-canvas__sheet" v-bind="events">
-      <template v-for="(comp, i) in comps" :key="`component${i}`">
-        <component @inlineDrop="childDrop" :is="comp" />
-      </template>
-    </div>
+    <div class="editor-canvas__overlay"></div>
+    <template
+      v-for="(wrapper, i) in editorStore.sections"
+      :key="`section-${i}-${wrapper.id}`"
+    >
+      <component :is="wrapper.coElement" />
+    </template>
   </div>
 </template>
 
@@ -20,16 +25,6 @@ const canvas = ref<HTMLDivElement | null>(null);
 .co-element {
   outline: 1px dashed var(--dark-grey);
   outline-offset: -1px;
-
-  &--dragover {
-    outline: none;
-    box-shadow: inset 0px 0px 0px 2px red;
-
-    &.co-element--inline {
-      outline: 1px dashed var(--dark-grey);
-      box-shadow: inset 4px 0px 0px -2px red;
-    }
-  }
 
   &:not(:has(&:hover)):hover {
     outline: none;
@@ -47,12 +42,13 @@ const canvas = ref<HTMLDivElement | null>(null);
   position: relative;
   overflow: hidden;
 
-  &__sheet {
-    overflow: auto;
-    background-color: #fff;
-    height: 100%;
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    border: none;
+    height: 100%;
+    pointer-events: none;
   }
 }
 </style>

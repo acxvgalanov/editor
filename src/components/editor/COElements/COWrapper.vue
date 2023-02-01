@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import { useCOElement } from '@/components/editor/common/coElement';
-import type { BuilderBlock } from '@/builder/elements/BuilderBlock';
+import type { BuilderWrapper } from '../../../builder/elements/BuilderWrapper';
+import { useCOElement } from '../common/coElement';
 
 interface Props {
-  currentComp: BuilderBlock;
+  currentComp: BuilderWrapper;
 }
 
 const props = defineProps<Props>();
+
 const { current, events } = useCOElement(props.currentComp);
 </script>
 
 <template>
   <div
-    class="co-element co-element__block"
+    class="co-element co-element__wrapper"
     v-bind="events"
     :id="current.id"
     :style="current.style"
   >
     <template
       v-for="(comp, i) in current.children"
-      :key="`coBlock-child-${current.id}-${i}`"
+      :key="`coWrapper-child-${current.id}-${i}`"
     >
       <component :is="comp.coElement" :currentComp="comp" />
     </template>

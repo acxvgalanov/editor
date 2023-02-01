@@ -1,31 +1,23 @@
 <template>
   <div class="editor" ref="editor">
+    <editor-canvas ref="editorElement" />
     <EditorTools :tools="tools" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineCustomElement } from 'vue';
+import { defineCustomElement } from 'vue';
 import EditorTools from '@/components/editor/EditorTools.vue';
 import { toolText } from '@/builder/tools/toolText';
 import { toolBlock } from '@/builder/tools/toolBlock';
-import { useEditor } from '@/stores/editor';
-import EditorCanvasCe from './EditorCanvas.ce.vue';
-const tools = [toolText(), toolBlock()];
-const editor = ref<HTMLDivElement | null>();
+import EditorCanvasCe from '@/components/editor/EditorCanvas.ce.vue';
 
-onMounted(() => {
-  if (!editor.value) {
-    throw new Error('Editor container not found');
-  }
+if (!customElements.get('editor-canvas')) {
   const CanvasElement = defineCustomElement(EditorCanvasCe);
   customElements.define('editor-canvas', CanvasElement);
-  const el = new CanvasElement();
-  el.classList.add('qq');
-  const { setEditorElement } = useEditor();
-  setEditorElement(el);
-  editor.value.prepend(el);
-});
+}
+
+const tools = [toolText(), toolBlock()];
 </script>
 
 <style lang="scss">

@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useInline } from '../common/dragNDrop';
+import type { BuilderText } from '../../../builder/elements/BuilderText';
+import { useCOElement } from '../common/coElement';
 
 interface Props {
-  id: string;
+  currentComp: BuilderText;
 }
 
 const props = defineProps<Props>();
-if (!props.id) {
-  throw new Error('no id!');
-}
-const emit = defineEmits(['inlineDrop']);
-const { events } = useInline(props.id, emit);
+const { current, events } = useCOElement(props.currentComp);
 </script>
 <template>
   <span
+    v-bind="events"
     :style="{
       userSelect: 'none',
       padding: '5px',
@@ -22,9 +19,8 @@ const { events } = useInline(props.id, emit);
     }"
     class="co-element co-element__text co-element--inline"
     @hover.stop
-    :id="id"
-    v-bind="events"
+    :id="current.id"
   >
-    {{ id }}
+    {{ current.id }}
   </span>
 </template>

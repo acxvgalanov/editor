@@ -6,15 +6,18 @@
 
 <script setup lang="ts">
 import type { BuilderTool } from '@/builder/types';
+import { useDragStore } from '../../stores/editor';
 
 export interface Props {
   tool: BuilderTool;
 }
 
+const dragStore = useDragStore();
+
 const props = defineProps<Props>();
 
-const onDragStart = (e: DragEvent) => {
-  e.dataTransfer?.setData('type', props.tool.elementType);
+const onDragStart = () => {
+  dragStore.setDraggedEl(props.tool.getElement());
 };
 </script>
 
