@@ -19,7 +19,7 @@ const { current, events } = useCOElement(props.currentComp);
   >
     <template
       v-for="(comp, i) in current.children"
-      :key="`coBlock-child-${current.id}-${i}`"
+      :key="`coBlock-child-${comp.id}-${i}`"
     >
       <component :is="comp.coElement" :currentComp="comp" />
     </template>

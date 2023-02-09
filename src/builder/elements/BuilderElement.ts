@@ -1,4 +1,4 @@
-import type { Component, CSSProperties } from 'vue';
+import type { CSSProperties, VNode } from 'vue';
 import type { COElementType } from '../types';
 
 export interface BuilderElementSerialized {
@@ -13,6 +13,8 @@ export abstract class BuilderElement {
   public abstract readonly containerFor: Set<COElementType>;
 
   protected elementChildren: BuilderElement[] = [];
+
+  protected node?: VNode;
 
   constructor(
     protected elementType: COElementType,
@@ -44,16 +46,22 @@ export abstract class BuilderElement {
     return this.containerFor.has(type);
   }
 
-  addChild(child: BuilderElement) {
+  addChild(child: BuilderElement, index?: number) {
     if (!this.canContain(child.type)) {
       throw new Error(
         `The element of type ${this.type} can't contain ${child.type}`
       );
     }
-    this.elementChildren.push(child);
+    if (index === undefined) {
+      this.elementChildren.push(child);
+      return;
+    }
+    this.elementChildren.splice(index, 0, child);
+    console.log(index);
+    console.log(this.elementChildren);
   }
 
-  abstract get coElement(): Component;
+  abstract get coElement(): VNode;
 
   abstract serialize(): BuilderElementSerialized;
 }

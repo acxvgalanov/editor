@@ -28,7 +28,10 @@ export class BuilderWrapper extends BuilderElement {
   }
 
   get coElement() {
-    return h(COWrapperVue, { currentComp: this });
+    if (!this.node) {
+      this.node = h(COWrapperVue, { currentComp: this });
+    }
+    return this.node;
   }
 
   serialize(): BuilderWrapperSerialized {

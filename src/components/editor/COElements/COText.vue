@@ -21,6 +21,6 @@ const { current, events } = useCOElement(props.currentComp);
     @hover.stop
     :id="current.id"
   >
-    {{ current.id }}
+    {{ current.content }}
   </span>
 </template>

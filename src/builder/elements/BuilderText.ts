@@ -1,4 +1,4 @@
-import { h, type CSSProperties } from 'vue';
+import { h, type CSSProperties, type VNode } from 'vue';
 import COTextVue from '../../components/editor/COElements/COText.vue';
 import { COElementType } from '../types';
 import {
@@ -33,7 +33,10 @@ export class BuilderText extends BuilderElement {
   }
 
   get coElement() {
-    return h(COTextVue, { currentComp: this });
+    if (!this.node) {
+      this.node = h(COTextVue, { currentComp: this });
+    }
+    return this.node;
   }
 
   serialize(): BuilderTextSerialized {

@@ -1,5 +1,10 @@
 <template>
-  <div class="editor-tools-tool" draggable="true" @dragstart="onDragStart">
+  <div
+    class="editor-tools-tool"
+    draggable="true"
+    @dragstart="onDragStart"
+    @dragend="onDragEnd"
+  >
     {{ tool.title }}
   </div>
 </template>
@@ -18,6 +23,10 @@ const props = defineProps<Props>();
 
 const onDragStart = () => {
   dragStore.setDraggedEl(props.tool.getElement());
+};
+
+const onDragEnd = () => {
+  dragStore.setDraggedEl(null);
 };
 </script>
 

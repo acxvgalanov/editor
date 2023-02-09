@@ -1,7 +1,10 @@
 import { ref, shallowRef, triggerRef } from 'vue';
 import { defineStore } from 'pinia';
 import type { BuilderWrapper } from '../builder/elements/BuilderWrapper';
-import type { BuilderElementSerialized } from '../builder/elements/BuilderElement';
+import type {
+  BuilderElement,
+  BuilderElementSerialized,
+} from '../builder/elements/BuilderElement';
 
 export const useEditorStore = defineStore('editorStore', () => {
   const currentSection = shallowRef<BuilderWrapper | null>(null);
@@ -27,5 +30,28 @@ export const useDragStore = defineStore('dragStore', () => {
   const setDraggedEl = (val: BuilderElementSerialized | null) => {
     draggedEl.value = val;
   };
-  return { draggedEl, setDraggedEl };
+
+  const isBefore = ref(false);
+
+  const dropTarget = shallowRef<BuilderElement | null>(null);
+  const dropEvent = shallowRef<DragEvent | null>(null);
+  const setDropEvent = (e: DragEvent | null) => {
+    if (e?.currentTarget) {
+      isBefore.value =
+        e.offsetX <= (e?.currentTarget as HTMLElement).offsetWidth / 2;
+    }
+    dropEvent.value = e;
+  };
+  const setDropTarget = (target: BuilderElement | null) => {
+    dropTarget.value = target;
+  };
+  return {
+    isBefore,
+    draggedEl,
+    dropTarget,
+    dropEvent,
+    setDraggedEl,
+    setDropEvent,
+    setDropTarget,
+  };
 });

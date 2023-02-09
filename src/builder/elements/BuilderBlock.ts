@@ -27,7 +27,10 @@ export class BuilderBlock extends BuilderElement {
   }
 
   get coElement() {
-    return h(COBlockVue, { currentComp: this });
+    if (!this.node) {
+      this.node = h(COBlockVue, { currentComp: this });
+    }
+    return this.node;
   }
 
   serialize(): BuilderBlockSerialized {
