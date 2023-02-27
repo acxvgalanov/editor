@@ -19,7 +19,7 @@ export const defaultStyle: CSSProperties = {
 };
 
 export class BuilderBlock extends BuilderElement {
-  public containerFor = new Set([COElementType.BLOCK, COElementType.TEXT]);
+  protected containerFor = new Set([COElementType.BLOCK, COElementType.TEXT]);
 
   constructor(id: string, style?: CSSProperties) {
     super(COElementType.BLOCK, 'Block', id);

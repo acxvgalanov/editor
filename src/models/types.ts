@@ -1,4 +1,4 @@
-import type { BuilderElementSerialized } from './elements/BuilderElement';
+import type { BuilderElementSerialized } from './builder/BuilderElement';
 
 export enum COElementType {
   TEXT = 'text',

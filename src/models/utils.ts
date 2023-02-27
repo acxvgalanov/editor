@@ -2,19 +2,16 @@ import shortUUID from 'short-uuid';
 import {
   BuilderBlock,
   type BuilderBlockSerialized,
-} from './elements/BuilderBlock';
+} from './builder/BuilderBlock';
 import type {
   BuilderElement,
   BuilderElementSerialized,
-} from './elements/BuilderElement';
-import {
-  BuilderText,
-  type BuilderTextSerialized,
-} from './elements/BuilderText';
+} from './builder/BuilderElement';
+import { BuilderText, type BuilderTextSerialized } from './builder/BuilderText';
 import {
   BuilderWrapper,
   type BuilderWrapperSerialized,
-} from './elements/BuilderWrapper';
+} from './builder/BuilderWrapper';
 import { COElementType } from './types';
 
 export const createBuilderElement = (type: COElementType): BuilderElement => {

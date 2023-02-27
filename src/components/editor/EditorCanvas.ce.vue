@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import shortUUID from 'short-uuid';
 import { ref, computed, type CSSProperties } from 'vue';
-import { BuilderWrapper } from '../../builder/elements/BuilderWrapper';
+import { BuilderWrapper } from '../../models/builder/BuilderWrapper';
 import { useEditorStore, useDragStore } from '../../stores/editor';
 
 const canvas = ref<HTMLDivElement | null>(null);
@@ -63,13 +63,14 @@ const markerStyle = computed<CSSProperties>(() => {
   outline: 1px dashed var(--dark-grey);
   outline-offset: -1px;
 
-  &:not(:has(&:hover)):hover {
+  &:not(:has(&:hover)):hover:not(&--selected) {
     outline: none;
     box-shadow: inset 0px 0px 0px 2px blue;
   }
 
   &--selected {
-    outline: 2px solid orange;
+    outline: none;
+    box-shadow: inset 0px 0px 0px 2px orange;
   }
 }
 

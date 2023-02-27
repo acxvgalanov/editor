@@ -10,7 +10,7 @@ export interface BuilderElementSerialized {
 export abstract class BuilderElement {
   protected elementStyle: CSSProperties = {};
 
-  public abstract readonly containerFor: Set<COElementType>;
+  protected abstract readonly containerFor: Set<COElementType>;
 
   protected elementChildren: BuilderElement[] = [];
 
@@ -26,7 +26,7 @@ export abstract class BuilderElement {
     return this.elementId;
   }
 
-  get type(): typeof this.elementType {
+  get type() {
     return this.elementType;
   }
 
@@ -57,8 +57,6 @@ export abstract class BuilderElement {
       return;
     }
     this.elementChildren.splice(index, 0, child);
-    console.log(index);
-    console.log(this.elementChildren);
   }
 
   abstract get coElement(): VNode;

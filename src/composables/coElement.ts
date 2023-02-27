@@ -1,10 +1,17 @@
-import { shallowRef, triggerRef } from 'vue';
-import type { BuilderElement } from '@/builder/elements/BuilderElement';
-import { deSerializeBuilderElement } from '@/builder/utils';
-import { useDragStore } from '@/stores/editor';
+import { computed, shallowRef, triggerRef } from 'vue';
+import type { BuilderElement } from '@/models/builder/BuilderElement';
+import { deSerializeBuilderElement } from '@/models/utils';
+import { useDragStore, useEditorStore } from '@/stores/editor';
+import { COElementType } from '@/models/types';
 
 export const useCOElement = <T extends BuilderElement>(currentComp: T) => {
   const current = shallowRef<T>(currentComp);
+
+  const editorStore = useEditorStore();
+
+  const isSelected = computed(() => {
+    return editorStore.selectedElement === current.value;
+  });
 
   const onDrop = async (e: DragEvent) => {
     const { draggedEl, setDropEvent, dropTarget, isBefore } = useDragStore();
@@ -29,7 +36,6 @@ export const useCOElement = <T extends BuilderElement>(currentComp: T) => {
       }
     }
     current.value.addChild(builderElement, insertIndex);
-
     triggerRef(current);
   };
 
@@ -53,16 +59,17 @@ export const useCOElement = <T extends BuilderElement>(currentComp: T) => {
     e.stopPropagation();
   };
 
-  const onDragenter = (e: DragEvent) => {
+  const onClick = (e: MouseEvent) => {
+    editorStore.setSelectedElement(
+      current.value.type === COElementType.WRAPPER ? null : current.value
+    );
     e.stopPropagation();
-  };
-
-  const onDragleave = (e: DragEvent) => {
-    e.stopPropagation();
+    e.preventDefault();
   };
 
   return {
     current,
-    events: { onDrop, onDragover, onDragenter, onDragleave },
+    isSelected,
+    events: { onDrop, onDragover, onClick },
   };
 };

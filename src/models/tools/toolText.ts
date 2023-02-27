@@ -1,9 +1,9 @@
-import { COElementType, type BuilderTool } from '@/builder/types';
+import { COElementType, type BuilderTool } from '@/models/types';
 import shortUUID from 'short-uuid';
 import {
   type BuilderTextSerialized,
   defaultStyle,
-} from '../elements/BuilderText';
+} from '../builder/BuilderText';
 
 export type ToolText = BuilderTool & {
   getElement: () => BuilderTextSerialized;

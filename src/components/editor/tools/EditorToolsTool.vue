@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import type { BuilderTool } from '@/builder/types';
-import { useDragStore } from '../../stores/editor';
+import type { BuilderTool } from '@/models/types';
+import { useDragStore } from '@/stores/editor';
 
 export interface Props {
   tool: BuilderTool;

@@ -1,14 +1,18 @@
 import { ref, shallowRef, triggerRef } from 'vue';
 import { defineStore } from 'pinia';
-import type { BuilderWrapper } from '../builder/elements/BuilderWrapper';
+import type { BuilderWrapper } from '@/models/builder/BuilderWrapper';
 import type {
   BuilderElement,
   BuilderElementSerialized,
-} from '../builder/elements/BuilderElement';
+} from '@/models/builder/BuilderElement';
 
 export const useEditorStore = defineStore('editorStore', () => {
   const currentSection = shallowRef<BuilderWrapper | null>(null);
   const sections = shallowRef<BuilderWrapper[]>([]);
+  const selectedElement = shallowRef<BuilderElement | null>(null);
+  const setSelectedElement = (val: BuilderElement | null) => {
+    selectedElement.value = val;
+  };
   const addSection = (val: BuilderWrapper) => {
     sections.value.push(val);
     triggerRef(sections);
@@ -20,6 +24,8 @@ export const useEditorStore = defineStore('editorStore', () => {
   return {
     sections,
     currentSection,
+    selectedElement,
+    setSelectedElement,
     addSection,
     resetSections,
   };

@@ -1,6 +1,6 @@
 import { h, type CSSProperties } from 'vue';
-import COWrapperVue from '../../components/editor/COElements/COWrapper.vue';
-import { COElementType } from '../types';
+import COWrapperVue from '@/components/editor/COElements/COWrapper.vue';
+import { COElementType } from '@/models/types';
 import {
   BuilderElement,
   type BuilderElementSerialized,
@@ -23,7 +23,7 @@ export class BuilderWrapper extends BuilderElement {
   public containerFor = new Set([COElementType.BLOCK]);
 
   constructor(id: string, style?: CSSProperties) {
-    super(COElementType.BLOCK, 'Block', id);
+    super(COElementType.WRAPPER, 'Block', id);
     Object.assign(this.style, style ?? defaultStyle);
   }
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { BuilderWrapper } from '../../../builder/elements/BuilderWrapper';
-import { useCOElement } from '../common/coElement';
+import type { BuilderWrapper } from '@/models/builder/BuilderWrapper';
+import { useCOElement } from '@/composables/coElement';
 
 interface Props {
   currentComp: BuilderWrapper;
@@ -13,14 +13,14 @@ const { current, events } = useCOElement(props.currentComp);
 
 <template>
   <div
-    class="co-element co-element__wrapper"
+    class="co-wrapper"
     v-bind="events"
     :id="current.id"
     :style="current.style"
   >
     <template
       v-for="(comp, i) in current.children"
-      :key="`coWrapper-child-${current.id}-${i}`"
+      :key="`coWrapper-child-${comp.id}-${i}`"
     >
       <component :is="comp.coElement" :currentComp="comp" />
     </template>

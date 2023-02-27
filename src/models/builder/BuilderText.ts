@@ -1,5 +1,5 @@
 import { h, type CSSProperties, type VNode } from 'vue';
-import COTextVue from '../../components/editor/COElements/COText.vue';
+import COTextVue from '@/components/editor/COElements/COText.vue';
 import { COElementType } from '../types';
 import {
   BuilderElement,
@@ -22,7 +22,7 @@ export class BuilderText extends BuilderElement {
     Object.assign(this.style, style ?? defaultStyle);
   }
 
-  public containerFor = new Set([]);
+  protected containerFor = new Set([]);
 
   get content() {
     return this.elementContent;

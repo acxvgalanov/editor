@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { BuilderText } from '../../../builder/elements/BuilderText';
-import { useCOElement } from '../common/coElement';
+import type { BuilderText } from '@/models/builder/BuilderText';
+import { useCOElement } from '@/composables/coElement';
 
 interface Props {
   currentComp: BuilderText;
 }
 
 const props = defineProps<Props>();
-const { current, events } = useCOElement(props.currentComp);
+const { current, events, isSelected } = useCOElement(props.currentComp);
 </script>
 <template>
   <span
@@ -17,7 +17,10 @@ const { current, events } = useCOElement(props.currentComp);
       padding: '5px',
       display: 'inline-block',
     }"
-    class="co-element co-element__text co-element--inline"
+    class="co-element"
+    :class="{
+      'co-element--selected': isSelected,
+    }"
     @hover.stop
     :id="current.id"
   >

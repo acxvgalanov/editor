@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import type { BuilderTool } from '@/builder/types';
-import EditorToolsTool from './EditorToolsTool.vue';
+import type { BuilderTool } from '@/models/types';
+import EditorToolsTool from '../tools/EditorToolsTool.vue';
 
 export interface Props {
   tools: BuilderTool[];
@@ -21,6 +21,7 @@ defineProps<Props>();
 .editor-tools {
   background-color: var(--light-grey);
   padding: 10px;
+  height: 100%;
 
   &__grid {
     display: grid;
